@@ -9,6 +9,13 @@ import java.util.Scanner;
 public class Main {
     public static void main(String[] args) {
 
+        int id;
+        int qtdCompra;
+        int qtdVenda;
+        int estoqueAtual;
+        double saldoAtual;
+        double valorCompra;
+
         ArrayList<Livro> bd_livros = new ArrayList<>();
         bd_livros.add(new Livro("Harry Potter e a Pedra Filosofal", 50, 7, "aventura", "ilustracoes"));
         bd_livros.add(new Livro("Robison Crusoe", 55, 10, "aventura", "ilustracoes"));
@@ -20,8 +27,10 @@ public class Main {
         bd_livros.add(new Livro("Paraíso", 30, 10, "comedia", "capa brochura"));
         bd_livros.add(new Livro("Até o Fim do Mundo", 15, 4, "comedia", "capa brochura"));
 
+
         Livraria livraria = Livraria.getEstancia();
         livraria.setLivros(bd_livros);
+
         while (true) {
             menu();
             Scanner scanner = new Scanner(System.in);
@@ -53,15 +62,21 @@ public class Main {
                     scanner.nextLine();
                     break;
                 case "2":
-                    //Comprar livro(alterar a quantidade de um livro já existente)
+                    //Comprar livro(alterar a quantidade de um livro já existente e o saldo)
                     livraria.consultarEstoque();
                     System.out.println("Informe o id o livro que deseja comprar");
-                    int id = Integer.parseInt(scanner.nextLine());
+                    id = Integer.parseInt(scanner.nextLine());
                     System.out.println("Agora informe quantos livros deseja comprar");
-                    int qtd = Integer.parseInt(scanner.nextLine());
+                    qtdCompra = Integer.parseInt(scanner.nextLine());
                     //Mudar a quantidade no estoque e mudar o valor do saldo
-                    livraria.getLivros().get(id).setQuantidadeEstoque(livraria.getLivros().get(id).getQuantidadeEstoque()+qtd);
-                    livraria.setSaldo(livraria.getSaldo() - (qtd*livraria.getLivros().get(id).getValor()));
+                    saldoAtual = livraria.getSaldo();
+                    valorCompra = qtdCompra*livraria.getLivros().get(id).getValor();
+                    if(saldoAtual < valorCompra){
+                        System.out.println("Saldo insuficiente :(\nTente vender alguns livros para depois comprar mais");
+                        break;
+                    }
+                    livraria.getLivros().get(id).setQuantidadeEstoque(livraria.getLivros().get(id).getQuantidadeEstoque()+qtdCompra);
+                    livraria.setSaldo(saldoAtual - valorCompra);
                     System.out.println("Aperte Enter para voltar ao menu");
                     scanner.nextLine();
                     break;
@@ -70,10 +85,29 @@ public class Main {
                     System.out.println(livraria.getSaldo());
                     break;
                 case "4":
-                    //consultar estoque de livros
+                    //Vender livro(alterar a quantidade de um livro já existente e o saldo)
+                    livraria.consultarEstoque();
+                    System.out.println("Informe o id o livro que deseja vender");
+                    id = Integer.parseInt(scanner.nextLine());
+                    System.out.println("Agora informe quantos livros deseja vender");
+                    qtdVenda = Integer.parseInt(scanner.nextLine());
+                    //Mudar a quantidade no estoque e mudar o valor do saldo
+                    saldoAtual = livraria.getSaldo();
+                    valorCompra = qtdVenda*livraria.getLivros().get(id).getValor();
+                    estoqueAtual = livraria.getLivros().get(id).getQuantidadeEstoque();
+                    if(estoqueAtual < qtdVenda){
+                        System.out.println("Não temos todos esses livros :(\nTente comprar uma quantidade menor desse livro");
+                        System.out.println("Aperte Enter para voltar ao menu");
+                        scanner.nextLine();
+                        break;
+                    }
+                    livraria.getLivros().get(id).setQuantidadeEstoque(estoqueAtual-qtdVenda);
+                    livraria.setSaldo(saldoAtual + valorCompra);
+                    System.out.println("Aperte Enter para voltar ao menu");
+                    scanner.nextLine();
                     break;
                 case "5":
-                    //listar todos os livros disponiveis pra compra
+                    //consultar estoque de livros
                     livraria.consultarEstoque();
                     System.out.println("Aperte Enter para voltar ao menu");
                     scanner.nextLine();
