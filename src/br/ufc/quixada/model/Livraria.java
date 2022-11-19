@@ -1,9 +1,6 @@
 package br.ufc.quixada.model;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.Date;
-import java.util.Scanner;
 
 public class Livraria {
     private static Livraria instancia = new Livraria();
@@ -13,7 +10,7 @@ public class Livraria {
     //Tem os livros disponiveis na livraria com quantidade de estoque
     private ArrayList<Livro> livros = new ArrayList<>();
 
-    private double saldo = 0;
+    private double saldo = 100;
 
     private Livraria() {
     }
@@ -46,17 +43,21 @@ public class Livraria {
         return instancia;
     }
 
-    public void comprarNovoLivro(Livro livro) {
-        this.livros.add(livro);
+    public boolean comprarNovoLivro(Livro livro) {
+        if(livro.getValor()*livro.getQuantidadeEstoque() < this.getSaldo()){
+            this.livros.add(livro);
+            return true;
+        }
+        return false;
     }
 
-    public void comprarLivro(int id, int qtdCompra){
+    public void comprarLivro(int id, int qtdCompra) {
         double saldoAtual = this.getSaldo();
         double valorCompra = qtdCompra * this.getLivros().get(id).getValor();
         if (saldoAtual >= valorCompra) {
             this.getLivros().get(id).setQuantidadeEstoque(this.getLivros().get(id).getQuantidadeEstoque() + qtdCompra);
             this.setSaldo(saldoAtual - valorCompra);
-        }else {
+        } else {
             System.out.println("Saldo insuficiente :(\nTente vender alguns livros para depois comprar mais");
         }
     }
@@ -75,7 +76,8 @@ public class Livraria {
     }
 
     ArrayList<Venda> vds = new ArrayList<>();
-    public void venderLivro(int id, int qtdVenda){
+
+    public void venderLivro(int id, int qtdVenda) {
         this.consultarEstoque();
         double saldoAtual = this.getSaldo();
         double valorCompra = qtdVenda * this.getLivros().get(id).getValor();

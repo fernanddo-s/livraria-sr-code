@@ -1,6 +1,5 @@
 package br.ufc.quixada.model;
 
-import java.util.ArrayList;
 import java.util.Date;
 
 public class Venda {

@@ -56,8 +56,12 @@ public class Main {
                         caracteristica = "capa brochura";
                     }
                     Livro l = new Livro(nome, valor, quantidade, genero, caracteristica);
-                    livraria.comprarNovoLivro(l);
-                    System.out.println("O novo livro foi adicionado ao estoque\nAperte Enter para voltar ao menu");
+                    if(livraria.comprarNovoLivro(l)){
+                        System.out.println("O novo livro foi adicionado ao estoque");
+                    } else {
+                        System.out.println("Saldo insuficiente :(\nTente vender alguns livros para depois comprar mais");
+                    }
+                    System.out.println("Aperte Enter para voltar ao menu");
                     scanner.nextLine();
                     break;
                 case "2":
@@ -118,7 +122,7 @@ public class Main {
     public static void menu() {
         System.out.println("Seja bem-vindo a livraria so Sr Code!\n" +
                 "O que quer fazer?\n" +
-                "0 - Fechar o sistema\n" +
+                "0 - Fechar o sistema\n" +//ok
                 "1 - Comprar um novo livro\n" +//ok
                 "2 - Comprar mais unidades de um livro que já esta no estoque\n" +//ok -> falta fazer mais de um livro
                 "3 - Vender livros\n" +//Falta adicionar a venda de livros diferentes
