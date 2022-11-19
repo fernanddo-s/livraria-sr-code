@@ -1,9 +1,12 @@
 package br.ufc.quixada.model;
 
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
+import java.util.Scanner;
 
 public class Livraria {
-    private static Livraria estancia = new Livraria();
+    private static Livraria instancia = new Livraria();
 
     private ArrayList<Venda> vendas;
 
@@ -39,12 +42,23 @@ public class Livraria {
         this.saldo = saldo;
     }
 
-    public static Livraria getEstancia() {
-        return estancia;
+    public static Livraria getInstancia() {
+        return instancia;
     }
 
-    public void comprarLivro(Livro livro) {
+    public void comprarNovoLivro(Livro livro) {
         this.livros.add(livro);
+    }
+
+    public void comprarLivro(int id, int qtdCompra){
+        double saldoAtual = this.getSaldo();
+        double valorCompra = qtdCompra * this.getLivros().get(id).getValor();
+        if (saldoAtual >= valorCompra) {
+            this.getLivros().get(id).setQuantidadeEstoque(this.getLivros().get(id).getQuantidadeEstoque() + qtdCompra);
+            this.setSaldo(saldoAtual - valorCompra);
+        }else {
+            System.out.println("Saldo insuficiente :(\nTente vender alguns livros para depois comprar mais");
+        }
     }
 
     //deve mostrar a lista de livros em estoque
@@ -53,4 +67,29 @@ public class Livraria {
             System.out.println(l);
         }
     }
+
+    public void consultarVendas() {
+        for (Venda v : getVendas()) {
+            System.out.println(v);
+        }
+    }
+
+    ArrayList<Venda> vds = new ArrayList<>();
+    public void venderLivro(int id, int qtdVenda){
+        this.consultarEstoque();
+        double saldoAtual = this.getSaldo();
+        double valorCompra = qtdVenda * this.getLivros().get(id).getValor();
+        int estoqueAtual = this.getLivros().get(id).getQuantidadeEstoque();
+        if (estoqueAtual >= qtdVenda) {
+            this.getLivros().get(id).setQuantidadeEstoque(estoqueAtual - qtdVenda);
+            this.setSaldo(saldoAtual + valorCompra);
+            ItemVenda iv = new ItemVenda(livros.get(id).getNome(), qtdVenda);
+            Venda v = new Venda(valorCompra, iv);
+            vds.add(v);
+            this.setVendas(vds);
+        } else {
+            System.out.println("Não temos todos esses livros :(\nTente comprar uma quantidade menor desse livro");
+        }
+    }
+
 }

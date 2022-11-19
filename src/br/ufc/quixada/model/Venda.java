@@ -5,24 +5,22 @@ import java.util.Date;
 
 public class Venda {
 
-    private Date dataVenda;
+    private Date dataVenda = new Date();
     private double valorVenda;
-    private ArrayList<Livro> itens;
+    private ItemVenda item;
 
     public Venda() {
     }
 
-    public Venda(ArrayList<Livro> itens, Date dataVenda) {
-        this.itens = itens;
+    public Venda(Date dataVenda, double valorVenda, ItemVenda item) {
         this.dataVenda = dataVenda;
+        this.valorVenda = valorVenda;
+        this.item = item;
     }
 
-    public ArrayList<Livro> getItens() {
-        return itens;
-    }
-
-    public void setItens(ArrayList<Livro> itens) {
-        this.itens = itens;
+    public Venda(double valorVenda, ItemVenda item) {
+        this.valorVenda = valorVenda;
+        this.item = item;
     }
 
     public Date getDataVenda() {
@@ -33,8 +31,28 @@ public class Venda {
         this.dataVenda = dataVenda;
     }
 
+    public double getValorVenda() {
+        return valorVenda;
+    }
+
+    public void setValorVenda(double valorVenda) {
+        this.valorVenda = valorVenda;
+    }
+
+    public ItemVenda getItem() {
+        return item;
+    }
+
+    public void setItem(ItemVenda item) {
+        this.item = item;
+    }
+
     @Override
     public String toString() {
-        return "dataVenda: " + dataVenda + ", itens: " + itens;
+        return "Venda{" +
+                "dataVenda=" + dataVenda +
+                ", valorVenda=" + valorVenda +
+                ", item=" + item +
+                '}';
     }
 }

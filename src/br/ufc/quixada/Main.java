@@ -27,8 +27,7 @@ public class Main {
         bd_livros.add(new Livro("Paraíso", 30, 10, "comedia", "capa brochura"));
         bd_livros.add(new Livro("Até o Fim do Mundo", 15, 4, "comedia", "capa brochura"));
 
-
-        Livraria livraria = Livraria.getEstancia();
+        Livraria livraria = Livraria.getInstancia();
         livraria.setLivros(bd_livros);
 
         while (true) {
@@ -57,7 +56,7 @@ public class Main {
                         caracteristica = "capa brochura";
                     }
                     Livro l = new Livro(nome, valor, quantidade, genero, caracteristica);
-                    livraria.comprarLivro(l);
+                    livraria.comprarNovoLivro(l);
                     System.out.println("O novo livro foi adicionado ao estoque\nAperte Enter para voltar ao menu");
                     scanner.nextLine();
                     break;
@@ -68,97 +67,63 @@ public class Main {
                     id = Integer.parseInt(scanner.nextLine());
                     System.out.println("Agora informe quantos livros deseja comprar");
                     qtdCompra = Integer.parseInt(scanner.nextLine());
-                    //Mudar a quantidade no estoque e mudar o valor do saldo
-                    saldoAtual = livraria.getSaldo();
-                    valorCompra = qtdCompra * livraria.getLivros().get(id).getValor();
-                    if (saldoAtual < valorCompra) {
-                        System.out.println("Saldo insuficiente :(\nTente vender alguns livros para depois comprar mais");
-                        break;
-                    }
-                    livraria.getLivros().get(id).setQuantidadeEstoque(livraria.getLivros().get(id).getQuantidadeEstoque() + qtdCompra);
-                    livraria.setSaldo(saldoAtual - valorCompra);
+                    //passar esses parametros pro metodo
+                    livraria.comprarLivro(id, qtdCompra);
                     System.out.println("Aperte Enter para voltar ao menu");
                     scanner.nextLine();
                     break;
                 case "3":
-                    //consultar saldo
-                    System.out.println(livraria.getSaldo());
+                    //Vender livro(alterar a quantidade de um livro já existente e o saldo)
+                    boolean vendendo = true;
+                    while (vendendo) {
+                        livraria.consultarEstoque();
+                        System.out.println("Qual o id do livro que deseja vender?");
+                        id = Integer.parseInt(scanner.nextLine());
+                        System.out.println("Qual a quantidade que deseja vender?");
+                        qtdVenda = Integer.parseInt(scanner.nextLine());
+                        livraria.venderLivro(id, qtdVenda);
+                        System.out.println("deseja vender mais um livro?S/N");
+                        if (scanner.nextLine().equals("N"))
+                            vendendo = false;
+                    }
+                    System.out.println("Aperte Enter para voltar ao menu");
+                    scanner.nextLine();
                     break;
                 case "4":
-                    //Vender livro(alterar a quantidade de um livro já existente e o saldo)
-                    livraria.consultarEstoque();
-                    System.out.println("Informe o id o livro que deseja vender");
-                    id = Integer.parseInt(scanner.nextLine());
-                    System.out.println("Agora informe quantos livros deseja vender");
-                    qtdVenda = Integer.parseInt(scanner.nextLine());
-                    //Mudar a quantidade no estoque e mudar o valor do saldo
-                    saldoAtual = livraria.getSaldo();
-                    valorCompra = qtdVenda * livraria.getLivros().get(id).getValor();
-                    estoqueAtual = livraria.getLivros().get(id).getQuantidadeEstoque();
-                    if (estoqueAtual < qtdVenda) {
-                        System.out.println("Não temos todos esses livros :(\nTente comprar uma quantidade menor desse livro");
-                        System.out.println("Aperte Enter para voltar ao menu");
-                        scanner.nextLine();
-                        break;
-                    }
-                    livraria.getLivros().get(id).setQuantidadeEstoque(estoqueAtual - qtdVenda);
-                    livraria.setSaldo(saldoAtual + valorCompra);
-                    //Como adicionar uma venda?
-                    //adiconar o livro na venda
-                    //fazer uma entrada de string e separar por split
-                    //informe o livro e a quantidade que deseja comprar
-                    //depois entra de novo pra comprar mais um livro e adicionar nos itens
-                    //fazer com um só por enquanto
-
-
+                    //consultar saldo
+                    System.out.println(livraria.getSaldo());
                     System.out.println("Aperte Enter para voltar ao menu");
                     scanner.nextLine();
                     break;
                 case "5":
+                    //consultar vendas
+                    livraria.consultarVendas();
+                    System.out.println("Aperte Enter para voltar ao menu");
+                    scanner.nextLine();
+                    break;
+                case "6":
                     //consultar estoque de livros
                     livraria.consultarEstoque();
                     System.out.println("Aperte Enter para voltar ao menu");
                     scanner.nextLine();
                     break;
+                default:
+                    System.out.println("Escolha uma opção válida!Ok?:)");
+                    System.out.println("Aperte Enter para voltar ao menu");
+                    scanner.nextLine();
             }
         }
     }
 
     public static void menu() {
-        System.out.println("Seja bem-vindo a livraria so Sr Code!");
-        System.out.println("O que quer fazer?");
-        System.out.println("0 - Fechar o sistema\n" +
-                "1 - Comprar um novo livro\n" +
-                "2 - Comprar mais unidades de um livro que já esta no estoque\n" +
-                "3 - Vender livros\n" +
-                "4 - Consultar Saldo\n" +
-                "5 - Consultar Vendas\n" +
-                "6 - Consultar estoque de livros");
+        System.out.println("Seja bem-vindo a livraria so Sr Code!\n" +
+                "O que quer fazer?\n" +
+                "0 - Fechar o sistema\n" +
+                "1 - Comprar um novo livro\n" +//ok
+                "2 - Comprar mais unidades de um livro que já esta no estoque\n" +//ok -> falta fazer mais de um livro
+                "3 - Vender livros\n" +//Falta adicionar a venda de livros diferentes
+                "4 - Consultar Saldo\n" +//ok
+                "5 - Consultar Vendas\n" +//ok
+                "6 - Consultar estoque de livros");//ok
     }
 }
-
-
-        /*
-        * Na livraria do Code tem três
-tipos de livros, a saber: aventura, drama e comédia. Todos os livros possuem nome,
-valor, quantidade em estoque e um identificador único. Os livros de aventura possuem
-ilustrações; os livros de drama possuem capa dura; e os de comédia possuem capa tipo
-brochura. Inicialmente, Code não quer armazenar os seus clientes, porém gostaria de
-efetuar e guardar as vendas, consultar qual o seu estoque de livros, quanto dinheiro ele
-tem em caixa, além de efetuar compras de novos livros.
-        * */
-
-//Livro -> Nome, valor, quantidade em estoque, id
-//Genero -> aventura, drama, comédia
-//Caracteristicas -> aventura-ilustrações, drama-capa dura, comédia-brochura
-//fazer e gurar as vendas
-//consultar o estoque
-//quanto em dinheiro ele tem em caixa
-//comprar novos livros
-
-//        como eu imagino o sitema
-//                10 livros de cada pra ele poder comprar
-//                cada um tem um valor de compra (mais barato)
-//                e um valor de venda(mais caro)
-//                é preciso fazer conta se ele pode ou não comprar os livros
-//                Uma lista de livros que podem ser comprados já com preço pré estabelecido
