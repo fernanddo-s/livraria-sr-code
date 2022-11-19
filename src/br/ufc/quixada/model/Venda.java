@@ -6,6 +6,7 @@ import java.util.Date;
 public class Venda {
 
     private Date dataVenda;
+    private double valorVenda;
     private ArrayList<Livro> itens;
 
     public Venda() {

@@ -1,7 +1,6 @@
 package br.ufc.quixada.model;
 
 import java.util.ArrayList;
-import java.util.List;
 
 public class Livraria {
     private static Livraria estancia = new Livraria();
@@ -13,7 +12,8 @@ public class Livraria {
 
     private double saldo = 0;
 
-    private Livraria(){}
+    private Livraria() {
+    }
 
     public ArrayList<Venda> getVendas() {
         return vendas;
@@ -39,17 +39,17 @@ public class Livraria {
         this.saldo = saldo;
     }
 
-    public static Livraria getEstancia(){
+    public static Livraria getEstancia() {
         return estancia;
     }
 
-    public void comprarLivro(Livro livro){
+    public void comprarLivro(Livro livro) {
         this.livros.add(livro);
     }
 
     //deve mostrar a lista de livros em estoque
-    public void consultarEstoque(){
-        for (Livro l: getLivros()) {
+    public void consultarEstoque() {
+        for (Livro l : getLivros()) {
             System.out.println(l);
         }
     }

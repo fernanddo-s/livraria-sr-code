@@ -49,14 +49,14 @@ public class Main {
                     System.out.println("Qual o genero do livro?(Aventura, drama ou comedia)");
                     String genero = scanner.nextLine();
                     String caracteristica = "";
-                    if(genero.equalsIgnoreCase("aventura")){
+                    if (genero.equalsIgnoreCase("aventura")) {
                         caracteristica = "ilustracoes";
                     } else if (genero.equalsIgnoreCase("drama")) {
                         caracteristica = "capa dura";
                     } else if (genero.equalsIgnoreCase("comedia")) {
                         caracteristica = "capa brochura";
                     }
-                    Livro l = new Livro(nome, valor, quantidade,genero,caracteristica);
+                    Livro l = new Livro(nome, valor, quantidade, genero, caracteristica);
                     livraria.comprarLivro(l);
                     System.out.println("O novo livro foi adicionado ao estoque\nAperte Enter para voltar ao menu");
                     scanner.nextLine();
@@ -70,12 +70,12 @@ public class Main {
                     qtdCompra = Integer.parseInt(scanner.nextLine());
                     //Mudar a quantidade no estoque e mudar o valor do saldo
                     saldoAtual = livraria.getSaldo();
-                    valorCompra = qtdCompra*livraria.getLivros().get(id).getValor();
-                    if(saldoAtual < valorCompra){
+                    valorCompra = qtdCompra * livraria.getLivros().get(id).getValor();
+                    if (saldoAtual < valorCompra) {
                         System.out.println("Saldo insuficiente :(\nTente vender alguns livros para depois comprar mais");
                         break;
                     }
-                    livraria.getLivros().get(id).setQuantidadeEstoque(livraria.getLivros().get(id).getQuantidadeEstoque()+qtdCompra);
+                    livraria.getLivros().get(id).setQuantidadeEstoque(livraria.getLivros().get(id).getQuantidadeEstoque() + qtdCompra);
                     livraria.setSaldo(saldoAtual - valorCompra);
                     System.out.println("Aperte Enter para voltar ao menu");
                     scanner.nextLine();
@@ -93,16 +93,24 @@ public class Main {
                     qtdVenda = Integer.parseInt(scanner.nextLine());
                     //Mudar a quantidade no estoque e mudar o valor do saldo
                     saldoAtual = livraria.getSaldo();
-                    valorCompra = qtdVenda*livraria.getLivros().get(id).getValor();
+                    valorCompra = qtdVenda * livraria.getLivros().get(id).getValor();
                     estoqueAtual = livraria.getLivros().get(id).getQuantidadeEstoque();
-                    if(estoqueAtual < qtdVenda){
+                    if (estoqueAtual < qtdVenda) {
                         System.out.println("Não temos todos esses livros :(\nTente comprar uma quantidade menor desse livro");
                         System.out.println("Aperte Enter para voltar ao menu");
                         scanner.nextLine();
                         break;
                     }
-                    livraria.getLivros().get(id).setQuantidadeEstoque(estoqueAtual-qtdVenda);
+                    livraria.getLivros().get(id).setQuantidadeEstoque(estoqueAtual - qtdVenda);
                     livraria.setSaldo(saldoAtual + valorCompra);
+                    //Como adicionar uma venda?
+                    //adiconar o livro na venda
+                    //fazer uma entrada de string e separar por split
+                    //informe o livro e a quantidade que deseja comprar
+                    //depois entra de novo pra comprar mais um livro e adicionar nos itens
+                    //fazer com um só por enquanto
+
+
                     System.out.println("Aperte Enter para voltar ao menu");
                     scanner.nextLine();
                     break;
@@ -113,18 +121,19 @@ public class Main {
                     scanner.nextLine();
                     break;
             }
-
         }
     }
 
-    public static void menu(){
+    public static void menu() {
         System.out.println("Seja bem-vindo a livraria so Sr Code!");
         System.out.println("O que quer fazer?");
         System.out.println("0 - Fechar o sistema\n" +
-                "1 - Comprar um livro novo\n" +
-                "2 - Comprar um livro que já esta no estoque\n" +
-                "3 - Consultar Saldo\n" +
-                "4 - Consultar estoque de livros");
+                "1 - Comprar um novo livro\n" +
+                "2 - Comprar mais unidades de um livro que já esta no estoque\n" +
+                "3 - Vender livros\n" +
+                "4 - Consultar Saldo\n" +
+                "5 - Consultar Vendas\n" +
+                "6 - Consultar estoque de livros");
     }
 }
 
