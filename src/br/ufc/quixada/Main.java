@@ -12,9 +12,6 @@ public class Main {
         int id;
         int qtdCompra;
         int qtdVenda;
-        int estoqueAtual;
-        double saldoAtual;
-        double valorCompra;
 
         ArrayList<Livro> bd_livros = new ArrayList<>();
         bd_livros.add(new Livro("Harry Potter e a Pedra Filosofal", 50, 7, "aventura", "ilustracoes"));
@@ -122,12 +119,12 @@ public class Main {
     public static void menu() {
         System.out.println("Seja bem-vindo a livraria so Sr Code!\n" +
                 "O que quer fazer?\n" +
-                "0 - Fechar o sistema\n" +//ok
-                "1 - Comprar um novo livro\n" +//ok
-                "2 - Comprar mais unidades de um livro que já esta no estoque\n" +//ok -> falta fazer mais de um livro
-                "3 - Vender livros\n" +//Falta adicionar a venda de livros diferentes
-                "4 - Consultar Saldo\n" +//ok
-                "5 - Consultar Vendas\n" +//ok
-                "6 - Consultar estoque de livros");//ok
+                "0 - Fechar o sistema\n" +
+                "1 - Comprar um novo livro\n" +
+                "2 - Comprar mais unidades de um livro que já esta no estoque\n" +
+                "3 - Vender livros\n" +
+                "4 - Consultar Saldo\n" +
+                "5 - Consultar Vendas\n" +
+                "6 - Consultar estoque de livros");
     }
 }

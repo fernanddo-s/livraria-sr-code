@@ -44,7 +44,7 @@ public class Livraria {
     }
 
     public boolean comprarNovoLivro(Livro livro) {
-        if(livro.getValor()*livro.getQuantidadeEstoque() < this.getSaldo()){
+        if (livro.getValor() * livro.getQuantidadeEstoque() < this.getSaldo()) {
             this.livros.add(livro);
             return true;
         }
@@ -84,14 +84,13 @@ public class Livraria {
         int estoqueAtual = this.getLivros().get(id).getQuantidadeEstoque();
         if (estoqueAtual >= qtdVenda) {
             this.getLivros().get(id).setQuantidadeEstoque(estoqueAtual - qtdVenda);
-            this.setSaldo(saldoAtual + valorCompra);
+            this.setSaldo(saldoAtual + (valorCompra * 0.25));
             ItemVenda iv = new ItemVenda(livros.get(id).getNome(), qtdVenda);
-            Venda v = new Venda(valorCompra, iv);
+            Venda v = new Venda((valorCompra * 0.25), iv);
             vds.add(v);
             this.setVendas(vds);
         } else {
             System.out.println("Não temos todos esses livros :(\nTente comprar uma quantidade menor desse livro");
         }
     }
-
 }
